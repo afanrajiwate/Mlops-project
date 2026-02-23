@@ -1,0 +1,25 @@
+name: Auto Commit Changes
+
+on:
+  push:
+
+jobs:
+  auto-commit:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Configure Git
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+
+      - name: Commit changes if any
+        run: |
+          git add .
+          git diff --cached --quiet || git commit -m "Auto commit by GitHub Actions"
+
+      - name: Push changes
+        run: git push
